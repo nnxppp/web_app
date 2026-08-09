@@ -18,9 +18,10 @@
 
         /* ===== CONTAINER ===== */
         .container {
-            max-width: 1100px;
-            margin: auto;
-            padding-top: 100px;
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* ===== TOP SECTION ===== */
@@ -89,6 +90,7 @@
             justify-content: space-between;
             padding: 60px 11% 70px;
             min-height: 320px;
+            flex-grow: 1;
         }
 
         .hero-content {
@@ -166,7 +168,7 @@
         /* ===== CARDS SECTION ===== */
         .cards-section {
             background-color: #ebebeb;
-            padding: 36px 5% 50px;
+            padding: 50px 5% 50px;
             display: flex;
             gap: 20px;
             justify-content: center;
