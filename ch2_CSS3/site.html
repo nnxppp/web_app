@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitename</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding-top: 100px;
+        }
+
+        /* ===== TOP SECTION ===== */
+        .top-section {
+            background-color: #1e1e72;
+            padding: 18px 0 0;
+        }
+
+        /* ===== HEADER (navbar) ===== */
+        header {
+            width: 78%;
+            min-height: 82px;
+            margin: auto;
+            padding: 0 27px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #2aa8e8, #24b2e8);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            height: 82px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 18px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            border-radius: 20px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        nav a:hover {
+            background-color: #ffffff;
+            color: #e8d821;
+        }
+
+        nav a.active {
+            background-color: #ffffff;
+            color: #e5e82a;
+            font-weight: bold;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background-color: #1e1e72;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 11% 70px;
+            min-height: 320px;
+        }
+
+        .hero-content {
+            max-width: 420px;
+        }
+
+        .hero-content p {
+            color: #29b6f6;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        .hero-content h2 {
+            color: #f5c518;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            font-style: normal;
+        }
+
+        /* ===== HERO BUTTON ===== */
+        .hero-button {
+            display: inline-flex;
+            align-items: stretch;
+            text-decoration: none;
+            border-radius: 3px;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            transition: opacity 0.2s;
+        }
+
+        .hero-button .btn-icon {
+            background-color: #f5c518;
+            color: #333;
+            width: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .hero-button .btn-label {
+            background-color: #2aa8e8;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 10px 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-button:hover .btn-label {
+            background-color: #ffffff;
+            color: #2aa8e8;
+        }
+
+        .hero-button:hover .btn-icon {
+            background-color: #ffffff;
+            color: #f5c518;
+        }
+
+        /* ===== HERO IMAGE ===== */
+        .hero-image {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-image img {
+            height: 280px;
+            object-fit: contain;
+        }
+
+        /* ===== CARDS SECTION ===== */
+        .cards-section {
+            background-color: #ebebeb;
+            padding: 36px 5% 50px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 22px 18px 20px;
+            flex: 0 1 280px;
+            max-width: 280px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2aa8e8;
+            margin: 0;
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            border-radius: 50%;
+            background-color: #f5c518;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .card p {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .btn-info {
+            background-color: #2aa8e8;
+            color: #ffffff;
+            border: none;
+            padding: 9px 22px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .btn-info:hover {
+            background-color: #ffffff;
+            color: #2aa8e8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media screen and (max-width: 900px) {
+            header {
+                width: 90%;
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .hero {
+                flex-direction: column;
+                padding: 40px 5%;
+            }
+
+            .cards-section {
+                flex-direction: column;
+                padding: 30px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- TOP SECTION + HEADER (Navbar) -->
+        <section class="top-section">
+            <header>
+                <h1 class="logo">Sitename</h1>
+                <nav>
+                    <a href="#">Home</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Services</a>
+                    <a href="#">Solutions</a>
+                    <a href="#">Contact Us</a>
+                </nav>
+            </header>
+        </section>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <p>Maecenas Tincidu Placerat</p>
+                <h2>Aliquam Anisil Estinvive</h2>
+                <a href="#" class="hero-button">
+                    <span class="btn-icon">&#9827;</span>
+                    <span class="btn-label">LOREMIP</span>
+                </a>
+            </div>
+            <div class="hero-image">
+                <!-- image.png placeholder - no image per user request -->
+            </div>
+        </section>
+
+        <!-- CARDS -->
+        <section class="cards-section">
+
+            <article class="card">
+                <div class="card-header">
+                    <h3>Short About Us</h3>
+                    <div class="card-icon">&#9679;</div>
+                </div>
+                <p>
+                    Sed ut perspiciatis unde omnis iste
+                    natus error sit voluptatem
+                    accusantium doloremque laudantium,
+                    totam
+                </p>
+                <button class="btn-info">More Info</button>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <h3>Short About Us</h3>
+                    <div class="card-icon">&#9679;</div>
+                </div>
+                <p>
+                    Sed ut perspiciatis unde omnis iste
+                    natus error sit voluptatem
+                    accusantium doloremque laudantium,
+                    totam
+                </p>
+                <button class="btn-info">More Info</button>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <h3>Short About Us</h3>
+                    <div class="card-icon">&#9733;</div>
+                </div>
+                <p>
+                    Sed ut perspiciatis unde omnis iste
+                    natus error sit voluptatem
+                    accusantium doloremque laudantium,
+                    totam
+                </p>
+                <button class="btn-info">More Info</button>
+            </article>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
