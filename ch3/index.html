@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Button</title>
+</head>
+
+<body>
+
+
+
+    <script>
+        function myFunction() {
+            const button = document.getElementById("b1");
+
+            if (button.style.backgroundColor === "blue") {
+                button.style.backgroundColor = "red";
+                button.textContent = "Go Blue";
+            } else {
+                button.style.backgroundColor = "blue";
+                button.textContent = "Go Red";
+            }
+        }
+
+        function updateText() {
+            const text = document.getElementById("textInput").value;
+            const color = document.getElementById("colorInput").value;
+            const display = document.getElementById("displayText");
+
+            display.textContent = text;
+            display.style.color = color;
+        }
+
+        let currentCount = 0;
+        function countUp() {
+            currentCount++;
+            document.getElementById("counterDisplay").textContent = currentCount;
+        }
+
+        function countDown() {
+            currentCount--;
+            document.getElementById("counterDisplay").textContent = currentCount;
+        }
+
+        let messages = [];
+        let currentMsgIndex = -1;
+
+        function addMessage() {
+            const msg = document.getElementById("msgInput").value;
+            if (msg.trim() !== "") {
+                const list = document.getElementById("messageList");
+                const div = document.createElement("div");
+                div.textContent = msg;
+                list.appendChild(div);
+
+                messages.push(msg.trim());
+                if (messages.length === 1) {
+                    currentMsgIndex = 0;
+                    updateCarousel();
+                }
+
+                document.getElementById("msgInput").value = "";
+            }
+        }
+
+        function updateCarousel() {
+            const display = document.getElementById("carouselDisplay");
+            if (messages.length > 0) {
+                display.textContent = messages[currentMsgIndex];
+            } else {
+                display.textContent = "";
+            }
+        }
+
+        function nextMessage() {
+            if (messages.length === 0) return;
+            currentMsgIndex++;
+            if (currentMsgIndex >= messages.length) {
+                currentMsgIndex = 0;
+            }
+            updateCarousel();
+        }
+
+        function prevMessage() {
+            if (messages.length === 0) return;
+            currentMsgIndex--;
+            if (currentMsgIndex < 0) {
+                currentMsgIndex = messages.length - 1;
+            }
+            updateCarousel();
+        }
+
+        const myObj = {
+            name: "John",
+            age: 30,
+            cars: [
+                {name:"Ford", models:["Fiesta", "Focus", "Mustang"]},
+                {name:"BMW", models:["320", "X3", "X5"]},
+                {name:"Fiat", models:["500", "Panda"]}
+            ]
+        };
+
+        function renderObject() {
+            const container = document.getElementById("objectDisplay");
+            if (!container) return;
+            
+            let html = `<h2>Owner : ${myObj.name} (${myObj.age})</h2>`;
+            html += `<ul>`;
+            myObj.cars.forEach(car => {
+                html += `<li>${car.name}`;
+                html += `<ol>`;
+                car.models.forEach(model => {
+                    html += `<li>${model}</li>`;
+                });
+                html += `</ol>`;
+                html += `</li>`;
+            });
+            html += `</ul>`;
+            
+            container.innerHTML = html;
+        }
+
+        window.addEventListener('DOMContentLoaded', renderObject);
+    </script>
+
+    <button id="b1" onclick="myFunction()"
+        style="background: blue; color: white; font-size: 15px; padding: 10px 20px; border: solid black 1px;  cursor: pointer;">
+        Go Red
+    </button>
+
+    <br><br>
+    <div id="displayText" style="color: #ff007f; font-size: 24px; font-family: serif; margin-bottom: 20px;">Hello world
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <input type="text" id="textInput" value="Hello world"
+            style="padding: 5px; font-size: 16px; border: 1px solid #aaa;">
+        <input type="color" id="colorInput" value="#ff007f"
+            style="width: 50px; height: 32px; padding: 1px; border: 1px solid #aaa; cursor: pointer;">
+        <button onclick="updateText()"
+            style="padding: 5px 12px; font-size: 16px; cursor: pointer; border: 1px solid #aaa; border-radius: 4px; background-color: #f0f0f0;">Click</button>
+    </div>
+
+    <br><br>
+    <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+    <div id="counterDisplay" style="font-size: 30px; font-weight: bold; margin-bottom: 10px;">0</div>
+    <div style="display: flex; gap: 10px;">
+        <button onclick="countUp()"
+            style="padding: 8px 16px; font-size: 16px; cursor: pointer; border: 1px solid #aaa; border-radius: 4px; background-color: #f0f0f0;">Count
+            Up</button>
+        <button onclick="countDown()"
+            style="padding: 8px 16px; font-size: 16px; cursor: pointer; border: 1px solid #aaa; border-radius: 4px; background-color: #f0f0f0;">Count
+            Down</button>
+    </div>
+
+    <br><br>
+    <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+    <div style="display: flex; align-items: center; gap: 10px; font-size: 20px; font-family: serif;">
+        Message: <input type="text" id="msgInput" style="padding: 5px; font-size: 18px; border: 1px solid #aaa;">
+        <button onclick="addMessage()"
+            style="padding: 5px 12px; font-size: 18px; cursor: pointer; border: 1px solid #aaa; border-radius: 4px; background-color: #f0f0f0;">Click</button>
+    </div>
+    <div id="messageList" style="margin-top: 20px; font-size: 20px; font-family: serif; line-height: 2;"></div>
+
+    <br><br>
+    <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+    <div style="display: flex; align-items: center; gap: 15px; font-size: 20px; font-family: serif;">
+        <button onclick="prevMessage()"
+            style="padding: 5px 12px; font-size: 15px; cursor: pointer; border: 1px solid #aaa; border-radius: 6px; background-color: #eee; ">Previous</button>
+        <div id="carouselDisplay" style="min-width: 50px; text-align: center;"></div>
+        <button onclick="nextMessage()"
+            style="padding: 5px 12px; font-size: 15px; cursor: pointer; border: 1px solid #aaa; border-radius: 6px; background-color: #eee;">Next</button>
+    </div>
+
+    <br><br>
+    <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+    <div id="objectDisplay" style="font-family: serif; font-size: 20px; line-height: 1.6; margin-top: 20px;"></div>
+
+</body>
+
+</html>
