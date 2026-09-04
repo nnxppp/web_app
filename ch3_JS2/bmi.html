@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Mass Index(BMI)</title>
+    <script>
+        function CalculateBMI(){
+            const height = Number(document.getElementById("heightInput").value);
+            const weight = Number(document.getElementById("weightInput").value);
+
+            const heightInM = height/100;
+            const bmi = weight/(heightInM**2);
+
+            document.getElementById("bmi").textContent = bmi;
+
+            let status = "";
+            if(bmi < 18.5){
+                status = "Underweight";
+            }else if(bmi>=18.5 && bmi<25){
+                status = "Normal weight";
+            }
+            else if(bmi>=25 && bmi<30){
+                status = "Overweight";
+            }
+            else if(bmi>=30){
+                status = "Obese";
+            }
+
+            document.getElementById("status").textContent = `Weight Condition: ${status}`;
+        }
+    </script>
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #8ee6a9, #b8f0d5);
+    }
+    .container {
+        width: 90%;
+        max-width: 600px;
+        padding: 35px 30px;
+        background: rgba(220, 250, 235, 0.8);
+        border-radius: 6px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 28px;
+        text-align: center;
+        color: #111;
+    }
+
+    p {
+        font-size: 17px;
+        margin: 12px 0 8px;
+    }
+
+    input {
+        width: 100%;
+        padding: 11px 18px;
+        font-size: 17px;
+        border: 2px solid #c5e6d5;
+        background-color: rgba(255, 255, 255, 0.45);
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #72df83;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 18px;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        background-color: #78e87e;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background-color: #5ddd68;
+    }
+
+    #bmi {
+        margin-top: 18px;
+        padding: 12px 18px;
+        background-color: rgba(255, 255, 255, 0.45);
+        font-size: 17px;
+    }
+
+    #status {
+        margin-top: 30px;
+        font-size: 17px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Body Mass Index(BMI) Calculator</h2>
+        <p id="height">Your Height (cm): </p>
+        <input type="number" id="heightInput">
+        <p id="weight">Your Weight (kg): </p>
+        <input type="number" id="weightInput"><br><br>
+        <button onclick="CalculateBMI()">Compute BMI</button>
+        <p id="bmi"></p>
+        <p id="status"></p>
+    </div>
+</body>
+</html>
