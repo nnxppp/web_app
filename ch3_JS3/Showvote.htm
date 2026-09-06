@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vote Result</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: Arial, sans-serif;
+        background: #fff;
+      }
+      .page {
+        text-align: center;
+      }
+      .result-box {
+        width: min(92vw, 390px);
+        padding: 34px 38px 28px;
+        border-radius: 38px;
+        background: #50b2c6;
+        text-align: center;
+        color: white;
+      }
+      h1 {
+        margin: 0 0 18px;
+        font-size: 28px;
+        line-height: 1.25;
+      }
+      .results {
+        display: flex;
+        justify-content: center;
+        gap: 22px;
+      }
+      .item {
+        width: 82px;
+        color: #000;
+        font-size: 25px;
+      }
+      .icon {
+        width: 82px;
+        height: 82px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: #fff;
+        font-size: 53px;
+      }
+      .count {
+        display: block;
+        margin-top: 14px;
+      }
+      .actions {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 16px;
+      }
+      button {
+        padding: 5px 12px;
+        border: 1px solid #92949d;
+        border-radius: 9px;
+        background: #e9e9ef;
+        font-size: 22px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="result-box">
+        <h1>Vote<br />Result</h1>
+        <div class="results">
+          <div class="item">
+            <div class="icon">🍔</div>
+            <span class="count" id="burger">0</span>
+          </div>
+          <div class="item">
+            <div class="icon">🍕</div>
+            <span class="count" id="pizza">0</span>
+          </div>
+          <div class="item">
+            <div class="icon">🌭</div>
+            <span class="count" id="hotdog">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" onclick="location.href = 'vote.htm'">
+          Back to Vote
+        </button>
+        <button type="button" id="clear">Clear Vote</button>
+      </div>
+    </main>
+    <script>
+      const key = "favoriteFoodVotes";
+      const emptyVotes = { burger: 0, pizza: 0, hotdog: 0 };
+      function render() {
+        const votes = JSON.parse(localStorage.getItem(key)) || emptyVotes;
+        Object.keys(emptyVotes).forEach(
+          (food) =>
+            (document.getElementById(food).textContent = votes[food] || 0),
+        );
+      }
+      document.getElementById("clear").addEventListener("click", () => {
+        localStorage.setItem(key, JSON.stringify(emptyVotes));
+        render();
+      });
+      render();
+    </script>
+  </body>
+</html>

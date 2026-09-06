@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>เกมเรียงคำศัพท์</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: Arial, Tahoma, sans-serif;
+      }
+      main {
+        width: min(92vw, 430px);
+        text-align: center;
+      }
+      h1 {
+        width: fit-content;
+        margin: 0 auto 14px;
+        padding: 7px 15px;
+        background: #d2ddbb;
+        font-size: 27px;
+        font-weight: 400;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        font-size: 18px;
+      }
+      a {
+        color: #fff;
+        background: #687b91;
+        padding: 7px 12px;
+        text-decoration: none;
+        font-size: 20px;
+      }
+      #message {
+        min-height: 25px;
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .slots,
+      .letters {
+        display: flex;
+        justify-content: center;
+        gap: 22px;
+      }
+      .slots {
+        margin-bottom: 12px;
+      }
+      .slot {
+        width: 95px;
+        height: 76px;
+        border: 1px solid #48b4d0;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-size: 42px;
+      }
+      .slot.preview {
+        background: #e5f7fb;
+        color: #4cb1c8;
+      }
+      .slot.filled {
+        background: #4cb1c8;
+        color: #fff;
+      }
+      .letters {
+        padding: 9px 13px;
+        border: 1px solid #48b4d0;
+        border-radius: 12px;
+      }
+      .letter {
+        width: 95px;
+        height: 74px;
+        border: 1px solid #268da9;
+        border-radius: 12px;
+        background: #4cb1c8;
+        color: #fff;
+        font-size: 48px;
+        cursor: grab;
+      }
+      .letter:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+      .reset {
+        width: 100%;
+        margin-top: 16px;
+        border: 0;
+        border-radius: 7px;
+        background: #78845b;
+        color: #fff;
+        font-size: 31px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>เกมเรียงคำศัพท์</h1>
+      <div class="top">
+        <a href="./wordlist.htm" aria-label="กลับไปจัดการรายการคำศัพท์"
+          >กลับไป Word List</a
+        ><span id="score">คะแนน: 0</span><span id="timer">เวลา: 30</span>
+      </div>
+      <p id="message" aria-live="polite">ลากตัวอักษรไปวางตามตำแหน่ง</p>
+      <div class="slots" id="slots"></div>
+      <div class="letters" id="letters"></div>
+      <button class="reset" id="reset" type="button">Reset</button>
+    </main>
+    <script>
+      const key = "wordSortWords";
+      const defaultWords = ["CAT", "DOG", "SUN", "MAP", "BOX"];
+      let gameWords = [];
+      let index = 0,
+        score = 0,
+        time = 30,
+        timer,
+        dragged;
+      const slots = document.getElementById("slots"),
+        letters = document.getElementById("letters"),
+        message = document.getElementById("message");
+      const shuffle = (list) => [...list].sort(() => Math.random() - 0.5);
+      function loadGameWords() {
+        const linkedWords = new URLSearchParams(location.search).get("words");
+        let savedWords;
+        try {
+          savedWords = linkedWords
+            ? JSON.parse(linkedWords)
+            : JSON.parse(localStorage.getItem(key));
+        } catch {
+          savedWords = null;
+        }
+        const sourceWords = Array.isArray(savedWords)
+          ? savedWords
+          : defaultWords;
+        gameWords = shuffle(sourceWords);
+      }
+      function updateInfo() {
+        document.getElementById("score").textContent = `คะแนน: ${score}`;
+        document.getElementById("timer").textContent = `เวลา: ${time}`;
+      }
+      function startTimer() {
+        clearInterval(timer);
+        time = 30;
+        updateInfo();
+        timer = setInterval(() => {
+          time--;
+          updateInfo();
+          if (!time) finish(false);
+        }, 1000);
+      }
+      function draw() {
+        if (!gameWords.length) {
+          message.textContent = "ยังไม่มีคำศัพท์ กรุณาเพิ่มคำศัพท์ก่อน";
+          return;
+        }
+        const word = gameWords[index];
+        slots.innerHTML = "";
+        letters.innerHTML = "";
+        [...word].forEach((_, position) => {
+          const slot = document.createElement("div");
+          slot.className = "slot";
+          slot.dataset.position = position;
+          slot.ondragover = (e) => e.preventDefault();
+          slot.ondragenter = preview;
+          slot.ondragleave = clearPreview;
+          slot.ondrop = drop;
+          slot.ondragstart = (event) => {
+            if (!slot.dataset.fixed) return event.preventDefault();
+            dragged = slot;
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/plain", slot.textContent);
+          };
+          slots.append(slot);
+        });
+        letters.ondragover = (event) => event.preventDefault();
+        letters.ondrop = returnToLetters;
+        shuffle([...word]).forEach((char, position) => {
+          const button = document.createElement("button");
+          button.className = "letter";
+          button.textContent = char;
+          button.draggable = true;
+          button.dataset.id = position;
+          button.ondragstart = (event) => {
+            dragged = button;
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/plain", char);
+          };
+          button.ondragend = () => {
+            document.querySelectorAll(".slot.preview").forEach((slot) => {
+              if (!slot.dataset.fixed) {
+                slot.textContent = "";
+                slot.classList.remove("preview");
+              }
+            });
+          };
+          letters.append(button);
+        });
+        message.textContent = `คำที่ ${index + 1} จาก ${gameWords.length}: ลากตัวอักษรไปวางตามตำแหน่ง`;
+        startTimer();
+      }
+      function preview(event) {
+        const slot = event.currentTarget;
+        if (!slot.dataset.fixed && dragged) {
+          slot.textContent = dragged.textContent;
+          slot.classList.add("preview");
+        }
+      }
+      function clearPreview(event) {
+        const slot = event.currentTarget;
+        if (!slot.dataset.fixed) {
+          slot.textContent = "";
+          slot.classList.remove("preview");
+        }
+      }
+      function drop(event) {
+        event.preventDefault();
+        const slot = event.currentTarget;
+        const letter =
+          event.dataTransfer.getData("text/plain") ||
+          (dragged && dragged.textContent);
+        if (slot.dataset.fixed || !letter) return;
+        if (dragged && dragged.classList.contains("slot")) {
+          dragged.textContent = "";
+          dragged.removeAttribute("data-fixed");
+          dragged.classList.remove("filled");
+          dragged.draggable = false;
+        }
+        slot.textContent = letter;
+        slot.dataset.fixed = "true";
+        slot.classList.remove("preview");
+        slot.classList.add("filled");
+        slot.draggable = true;
+        if (dragged && dragged.classList.contains("letter")) {
+          dragged.disabled = true;
+          slot.dataset.sourceId = dragged.dataset.id;
+        }
+        if ([...slots.children].every((item) => item.textContent)) check();
+      }
+      function returnToLetters(event) {
+        event.preventDefault();
+        if (
+          !dragged ||
+          !dragged.classList.contains("slot") ||
+          !dragged.dataset.fixed
+        )
+          return;
+        const sourceButton = letters.querySelector(
+          `[data-id="${dragged.dataset.sourceId}"]`,
+        );
+        if (sourceButton) sourceButton.disabled = false;
+        dragged.textContent = "";
+        dragged.removeAttribute("data-fixed");
+        dragged.removeAttribute("data-source-id");
+        dragged.classList.remove("filled");
+        dragged.draggable = false;
+      }
+      function check() {
+        clearInterval(timer);
+        const answer = [...slots.children]
+          .map((item) => item.textContent)
+          .join("");
+        if (answer === gameWords[index]) {
+          score++;
+          message.textContent = "ถูกต้อง!";
+        } else message.textContent = `ยังไม่ถูก ต้องเป็น ${gameWords[index]}`;
+        updateInfo();
+        setTimeout(next, 900);
+      }
+      function finish(completed) {
+        clearInterval(timer);
+        message.textContent = completed
+          ? `จบเกม! คะแนนรวม ${score}`
+          : `หมดเวลา! คำตอบคือ ${gameWords[index]}`;
+        [...document.querySelectorAll(".letter")].forEach(
+          (x) => (x.disabled = true),
+        );
+      }
+      function next() {
+        index++;
+        index >= gameWords.length ? finish(true) : draw();
+      }
+      function resetGame() {
+        clearInterval(timer);
+        loadGameWords();
+        index = 0;
+        score = 0;
+        draw();
+      }
+      document.getElementById("reset").onclick = resetGame;
+      window.addEventListener("storage", (event) => {
+        if (event.key === key) resetGame();
+      });
+      resetGame();
+    </script>
+  </body>
+</html>

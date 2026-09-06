@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>เกมเรียงคำศัพท์ - รายการคำศัพท์</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: Arial, Tahoma, sans-serif;
+        background: #fff;
+      }
+      main {
+        width: min(92vw, 430px);
+      }
+      h1 {
+        width: fit-content;
+        margin: 0 auto 25px;
+        padding: 7px 15px;
+        background: #d2ddbb;
+        font-size: 27px;
+        font-weight: 400;
+      }
+      .card {
+        overflow: hidden;
+        border-radius: 12px;
+        background: #ffff00;
+        box-shadow: 0 5px 10px #777;
+      }
+      form {
+        background: #fff;
+        padding: 18px;
+      }
+      input {
+        width: 100%;
+        border: 0;
+        outline: 0;
+        font-size: 20px;
+        padding: 8px 2px;
+      }
+      input::placeholder {
+        color: #b7bcc2;
+      }
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+        padding: 0 18px;
+        border-top: 2px dotted #b4bac6;
+        font-weight: 700;
+      }
+      .delete {
+        border: 0;
+        background: transparent;
+        color: red;
+        font-size: 22px;
+        cursor: pointer;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+      }
+      .hint {
+        margin: 0;
+        color: #555;
+      }
+      a,
+      .start {
+        border: 0;
+        border-radius: 6px;
+        padding: 8px 14px;
+        background: #687b91;
+        color: white;
+        font-size: 19px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>เกมเรียงคำศัพท์</h1>
+      <section class="card" aria-label="รายการคำศัพท์">
+        <form id="word-form">
+          <input
+            id="word-input"
+            maxlength="3"
+            autocomplete="off"
+            placeholder="Enter your word"
+            aria-label="เพิ่มคำศัพท์ 3 ตัวอักษร"
+          />
+        </form>
+        <ul id="word-list"></ul>
+      </section>
+      <div class="footer">
+        <p class="hint">เพิ่มคำศัพท์ภาษาอังกฤษ 3 ตัวอักษร</p>
+        <a class="start" id="start-game" href="wordgame.htm">เริ่มเล่น</a>
+      </div>
+    </main>
+    <script>
+      const storageKey = "wordSortWords";
+      const defaults = ["CAT", "DOG", "SUN", "MAP", "BOX"];
+      const load = () =>
+        JSON.parse(localStorage.getItem(storageKey)) || defaults;
+      const save = (words) =>
+        localStorage.setItem(storageKey, JSON.stringify(words));
+      const list = document.getElementById("word-list");
+      function render() {
+        list.innerHTML = "";
+        load().forEach((word, index) => {
+          const item = document.createElement("li");
+          item.innerHTML = `<span>${word}</span><button class="delete" type="button" aria-label="ลบ ${word}">🗑</button>`;
+          item.querySelector("button").onclick = () => {
+            const words = load();
+            words.splice(index, 1);
+            save(words);
+            render();
+          };
+          list.append(item);
+        });
+      }
+      document
+        .getElementById("word-form")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+          const input = document.getElementById("word-input");
+          const word = input.value.trim().toUpperCase();
+          if (!/^[A-Z]{3}$/.test(word))
+            return alert("กรุณาใส่คำศัพท์ภาษาอังกฤษ 3 ตัวอักษร");
+          const words = load();
+          if (!words.includes(word)) {
+            words.push(word);
+            save(words);
+            render();
+          }
+          input.value = "";
+        });
+      document
+        .getElementById("start-game")
+        .addEventListener("click", (event) => {
+          const words = load();
+          if (!words.length) {
+            event.preventDefault();
+            alert("กรุณาเพิ่มคำศัพท์อย่างน้อย 1 คำก่อนเริ่มเกม");
+            return;
+          }
+          event.currentTarget.href = `wordgame.htm?words=${encodeURIComponent(JSON.stringify(words))}`;
+        });
+      render();
+    </script>
+  </body>
+</html>

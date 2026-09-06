@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vote the favorite</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: Arial, sans-serif;
+        background: #fff;
+      }
+      .page {
+        text-align: center;
+      }
+      .vote-box {
+        width: min(92vw, 390px);
+        padding: 34px 38px 28px;
+        border-radius: 38px;
+        background: #50b2c6;
+        text-align: center;
+        color: white;
+      }
+      h1 {
+        margin: 0 0 18px;
+        font-size: 28px;
+        line-height: 1.25;
+      }
+      .choices {
+        display: flex;
+        justify-content: center;
+        gap: 22px;
+      }
+      .food {
+        width: 82px;
+        height: 82px;
+        display: grid;
+        place-items: center;
+        border: 0;
+        border-radius: 14px;
+        background: white;
+        font-size: 53px;
+        cursor: pointer;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+      }
+      .food:hover,
+      .food:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 10px #26768788;
+        outline: 3px solid #fff;
+      }
+      .show-vote {
+        margin-top: 16px;
+        padding: 5px 12px;
+        border: 1px solid #92949d;
+        border-radius: 9px;
+        background: #e9e9ef;
+        font-size: 25px;
+        cursor: pointer;
+      }
+      .status {
+        min-height: 20px;
+        margin: 14px 0 0;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="vote-box">
+        <h1>Vote the<br />favorite</h1>
+        <div class="choices" aria-label="Choose your favorite food">
+          <button class="food" data-food="burger" aria-label="Vote for burger">
+            🍔
+          </button>
+          <button class="food" data-food="pizza" aria-label="Vote for pizza">
+            🍕
+          </button>
+          <button class="food" data-food="hotdog" aria-label="Vote for hot dog">
+            🌭
+          </button>
+        </div>
+        <p class="status" id="status" aria-live="polite"></p>
+      </div>
+      <button
+        class="show-vote"
+        type="button"
+        onclick="location.href = 'Showvote.htm'"
+      >
+        Show Vote
+      </button>
+    </main>
+    <script>
+      const key = "favoriteFoodVotes";
+      function votes() {
+        return (
+          JSON.parse(localStorage.getItem(key)) || {
+            burger: 0,
+            pizza: 0,
+            hotdog: 0,
+          }
+        );
+      }
+      document.querySelectorAll(".food").forEach((button) =>
+        button.addEventListener("click", () => {
+          const result = votes();
+          result[button.dataset.food]++;
+          localStorage.setItem(key, JSON.stringify(result));
+          document.getElementById("status").textContent =
+            "Your vote has been recorded!";
+        }),
+      );
+    </script>
+  </body>
+</html>
