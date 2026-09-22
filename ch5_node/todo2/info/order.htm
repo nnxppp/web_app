@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>สั่งซื้อ | Hot & Cold Bakery Cafe</title>
+    <link rel="stylesheet" href="/public/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>สั่งซื้ออาหาร</h1>
+      <p>Hot & Cold Bakery Cafe</p>
+      <nav><a href="/home">หน้าแรก</a><a href="/menu">ดูเมนู</a><a href="/order">สั่งซื้อ</a></nav>
+    </header>
+    <main>
+      <h2>เลือกเมนูที่ต้องการ</h2>
+      <form action="#">
+        <fieldset>
+          <legend>เลือกรายการอาหาร</legend>
+          <label><input type="checkbox" name="food1"> ครัวซองต์เนยสดฝรั่งเศส — <b>85 บาท</b></label>
+          <label><input type="checkbox" name="food2"> บานอฟฟี่พาย — <b>100 บาท</b></label>
+          <label><input type="checkbox" name="food3"> มาการอง — <b>40 บาท</b></label>
+          <label><input type="checkbox" name="food4"> ทีรามิสุ — <b>120 บาท</b></label>
+          <label><input type="checkbox" name="food5"> เครมบรูเล่ — <b>200 บาท</b></label>
+          <label><input type="checkbox" name="food6"> น้ำเปล่า — <b>20 บาท</b></label>
+          <label><input type="checkbox" name="food7"> ชาไทย — <b>50 บาท</b></label>
+          <label><input type="checkbox" name="food8"> มัทฉะ — <b>60 บาท</b></label>
+        </fieldset>
+        <fieldset>
+          <legend>ข้อมูลจัดส่งและเวลา</legend>
+          <label>ชื่อผู้รับ <input type="text" required></label>
+          <label>เบอร์โทรศัพท์ <input type="tel" required></label>
+          <label>ที่อยู่จัดส่ง <textarea rows="4"></textarea></label>
+          <label>วันที่รับสินค้า <input type="date"></label>
+          <label>เวลารับสินค้า <input type="time"></label>
+        </fieldset>
+        <button type="submit">ยืนยันการสั่งซื้อ</button>
+      </form>
+    </main>
+  </body>
+</html>
