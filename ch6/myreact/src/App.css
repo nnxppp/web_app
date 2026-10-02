@@ -1,0 +1,242 @@
+.App {
+  width: min(100% - 2rem, 760px);
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #587267;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #1d3029;
+  font-size: clamp(2rem, 6vw, 3rem);
+}
+
+.page-intro {
+  margin: 0.75rem 0 0;
+  color: #58655f;
+}
+
+.todo-navigation {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.nav-button {
+  border: 1px solid #ccd8d1;
+  border-radius: 0.55rem;
+  background: #fff;
+  color: #34453d;
+  font-weight: 700;
+}
+
+.nav-button.active {
+  border-color: #315b49;
+  background: #315b49;
+  color: #fff;
+}
+
+.exercise-card {
+  border: 1px solid #d8e0db;
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(29 48 41 / 7%);
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.exercise-card h2 {
+  margin: 0 0 1.5rem;
+  color: #1d3029;
+}
+
+.exercise-card button {
+  border: 1px solid #bdc8c1;
+  border-radius: 0.4rem;
+  background: #f6f8f6;
+  color: #26372f;
+  padding: 0.45rem 0.75rem;
+}
+
+.exercise-card button:hover {
+  border-color: #648374;
+  background: #edf3ef;
+}
+
+.exercise-card button:focus-visible,
+.exercise-card input:focus-visible,
+.exercise-card select:focus-visible,
+.nav-button:focus-visible {
+  outline: 3px solid #82b5a0;
+  outline-offset: 2px;
+}
+
+.color-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem 0 1.5rem;
+  border-bottom: 1px solid #d8e0db;
+}
+
+.color-button {
+  min-width: 7.5rem;
+  font-size: 1.1rem;
+}
+
+.message-controls {
+  padding: 0.75rem 0 1.5rem;
+  border-bottom: 1px solid #d8e0db;
+}
+
+.live-message {
+  min-height: 1.6em;
+  margin: 0.75rem 0 1rem;
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+}
+
+.message-inputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.message-inputs input[type='text'] {
+  flex: 1;
+  min-width: 0;
+}
+
+.color-picker {
+  width: 3.5rem;
+  height: 2.5rem;
+  padding: 0.2rem;
+}
+
+.counter {
+  padding: 0.5rem 1rem 0;
+}
+
+.counter > p {
+  margin: 0.5rem 0 1rem;
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.counter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #aab995;
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  color: #34453d;
+  font-weight: 700;
+}
+
+.menu-card h2 {
+  margin-bottom: 0.75rem;
+}
+
+.food-list {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.food-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0.65rem 0;
+  font-size: 1.1rem;
+}
+
+.food-item > span:first-child {
+  min-width: 0;
+}
+
+.best-seller {
+  font-size: 1rem;
+}
+
+.food-item button {
+  padding: 0.25rem 0.6rem;
+}
+
+.food-form {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 2rem;
+  border-top: 1px solid #d8e0db;
+  padding-top: 1.25rem;
+}
+
+.food-form h3 {
+  margin: 0 0 0.25rem;
+  color: #1d3029;
+}
+
+.food-form label {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.food-form button {
+  justify-self: start;
+}
+
+.form-error {
+  margin: 0;
+  color: #a32121;
+  font-size: 0.9rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 480px) {
+  .App {
+    width: min(100% - 1.25rem, 760px);
+    padding: 1.5rem 0;
+  }
+
+  .color-buttons {
+    gap: 0.5rem;
+  }
+
+  .food-item {
+    gap: 0.35rem;
+    font-size: 1rem;
+  }
+}
