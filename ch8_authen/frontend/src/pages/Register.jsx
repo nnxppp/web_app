@@ -1,0 +1,8 @@
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { authApi } from '../services/api.js';
+export default function Register() {
+  const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' }); const [error, setError] = useState(''); const [message, setMessage] = useState(''); const navigate = useNavigate();
+  const submit = async (event) => { event.preventDefault(); setError(''); setMessage(''); if (form.password !== form.confirmPassword) { setError('รหัสผ่านไม่ตรงกัน'); return; } try { const { data } = await authApi.register(form); setMessage(data.message); setTimeout(() => navigate('/login'), 700); } catch (err) { setError(err.response?.data?.message || 'สมัครสมาชิกไม่สำเร็จ'); } };
+  return <main className='auth-page'><form className='auth-card' onSubmit={submit}><p className='eyebrow'>TODO APP</p><h1>สมัครสมาชิก</h1>{error && <p className='message error'>{error}</p>}{message && <p className='message success'>{message}</p>}<label>ชื่อผู้ใช้<input required value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} /></label><label>อีเมล<input required type='email' value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label><label>รหัสผ่าน<input required minLength='6' type='password' value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} /></label><label>ยืนยันรหัสผ่าน<input required minLength='6' type='password' value={form.confirmPassword} onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })} /></label><button type='submit'>สร้างบัญชี</button><p className='switch'>มีบัญชีแล้ว? <Link to='/login'>เข้าสู่ระบบ</Link></p></form></main>;
+}
